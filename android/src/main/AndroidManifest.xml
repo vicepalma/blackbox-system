@@ -2,11 +2,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <!-- 📌 Permisos de Ubicación y Foreground Service -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_LOCATION"/> <!-- ✅ Agregado para Android 14+ -->
-    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/> <!-- Opcional, solo si la app necesita ubicación en segundo plano -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_LOCATION" tools:targetApi="34"/>
+    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS"/>
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
 
     <application
         android:allowBackup="true"
@@ -19,6 +22,7 @@
         android:theme="@style/Theme.BlackBox"
         tools:targetApi="31">
 
+        <!-- 📌 MainActivity -->
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -30,12 +34,12 @@
             </intent-filter>
         </activity>
 
-        <!-- ✅ Agregar el servicio de ubicación -->
+        <!-- 📌 Servicio de Ubicación en Segundo Plano -->
         <service
             android:name=".services.LocationService"
             android:exported="false"
-            android:foregroundServiceType="location" />
+            android:foregroundServiceType="location"
+            android:stopWithTask="true"/>
     </application>
-
 
 </manifest>

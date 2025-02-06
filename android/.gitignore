@@ -1,3 +1,4 @@
 /build
 # Ignorar todos los archivos .sqlite
 *.sqlite
+blackbox_database_copy.*

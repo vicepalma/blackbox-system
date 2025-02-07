@@ -1,42 +1,52 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
+/* ✅ Estilos generales */
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+}
+
+/* ✅ Encabezado */
+.header {
+  padding: 15px;
+  background: #282c34;
+  color: white;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+/* ✅ Estilos del select */
+.dropdown {
+  padding: 8px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
+/* ✅ Contenedor del mapa */
+.map-container {
+  flex-grow: 1; /* ✅ Hace que el mapa ocupe todo el espacio restante */
+  width: 100%;
+}
+
+/* ✅ Estilos para el mapa */
+.map {
+  height: 100%;
+  width: 100%;
+}
+
+/* 📱 ✅ Mejoras para móviles */
+@media (max-width: 768px) {
+  .header {
+    font-size: 14px;
+    padding: 10px;
   }
-  to {
-    transform: rotate(360deg);
+
+  .dropdown {
+    font-size: 14px;
+    padding: 6px;
   }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
-}
-
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
 }

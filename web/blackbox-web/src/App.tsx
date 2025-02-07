@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import { MapContainer, TileLayer, Polyline, Marker, Popup } from "react-leaflet";
-import { LatLngExpression, Icon } from "leaflet";
+import { LatLngExpression } from "leaflet";
 import axios from "axios";
 import "leaflet/dist/leaflet.css"; // ✅ Importar estilos de Leaflet
+import "./App.css"; // ✅ Importar estilos adicionales
 
 interface Journey {
   journey_id: string;
@@ -19,9 +20,9 @@ const App = () => {
 
   // Cargar todos los journeyIds al inicio
   useEffect(() => {
-    axios.get("http://localhost:8080/journeys")
+    axios.get<Journey[]>("http://localhost:8080/journeys")
       .then(response => {
-        const uniqueIds = [...new Set(response.data.map((j: Journey) => j.journey_id))];
+        const uniqueIds: string[] = [...new Set(response.data.map((j) => j.journey_id))];
         setJourneyIds(uniqueIds);
       })
       .catch(error => console.error("Error cargando journeys:", error));
@@ -30,7 +31,7 @@ const App = () => {
   // Cargar los datos del journey seleccionado
   useEffect(() => {
     if (selectedJourney) {
-      axios.get(`http://localhost:8080/journeys/${selectedJourney}`)
+      axios.get<Journey[]>(`http://localhost:8080/journeys/${selectedJourney}`)
         .then(response => {
           setJourneys(response.data);
         })
@@ -46,20 +47,13 @@ const App = () => {
   // Convertir datos en posiciones para la Polyline (invertir coordenadas)
   const polylinePositions: LatLngExpression[] = journeys.map(j => [j.latitude, j.longitude]);
 
-  // Icono personalizado para el punto de inicio
-  const startIcon = new Icon({
-    iconUrl: "https://leafletjs.com/examples/custom-icons/leaf-red.png",
-    iconSize: [25, 41],
-    iconAnchor: [12, 41]
-  });
-
   return (
-    <div style={{ height: "100vh", display: "flex", flexDirection: "column" }}>
-      <header style={{ padding: "10px", textAlign: "center", background: "#282c34", color: "white" }}>
+    <div className="container">
+      <header className="header">
         <h2>📍 BlackBox - Rutas Registradas</h2>
-        <select 
+        <select
           onChange={(e) => setSelectedJourney(e.target.value)}
-          style={{ padding: "5px", marginTop: "10px" }}
+          className="dropdown"
         >
           <option value="">Selecciona un Journey</option>
           {journeyIds.map(id => (
@@ -68,21 +62,23 @@ const App = () => {
         </select>
       </header>
 
-      <MapContainer center={center} zoom={15} style={{ height: "90%", width: "100%" }}>
-        <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-        
-        {/* 📌 Dibujar la ruta */}
-        {journeys.length > 0 && (
-          <Polyline positions={polylinePositions} pathOptions={{ color: "blue" }} />
-        )}
+      <div className="map-container">
+        <MapContainer center={center} zoom={15} className="map">
+          <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
 
-        {/* 📌 Marcar el punto de inicio del recorrido */}
-        {journeys.length > 0 && (
-          <Marker position={polylinePositions[0]} icon={startIcon}>
-            <Popup>📍 Inicio del Recorrido</Popup>
-          </Marker>
-        )}
-      </MapContainer>
+          {/* 📌 Dibujar la ruta */}
+          {journeys.length > 0 && (
+            <Polyline positions={polylinePositions} pathOptions={{ color: "blue" }} />
+          )}
+
+          {/* 📌 Marcar el punto de inicio del recorrido */}
+          {journeys.length > 0 && (
+            <Marker position={polylinePositions[0]}>
+              <Popup>📍 Inicio del Recorrido</Popup>
+            </Marker>
+          )}
+        </MapContainer>
+      </div>
     </div>
   );
 };

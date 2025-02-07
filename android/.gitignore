@@ -2,3 +2,4 @@
 # Ignorar todos los archivos .sqlite
 *.sqlite
 blackbox_database_copy.*
+blackbox_database*

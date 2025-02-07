@@ -27,7 +27,7 @@ var db *gorm.DB
 func main() {
 	// Conectar a la base de datos SQLite
 	var err error
-	db, err = gorm.Open(sqlite.Open("../android/blackbox_database_copy.sqlite"), &gorm.Config{})
+	db, err = gorm.Open(sqlite.Open("../android/blackbox_database_latest.sqlite"), &gorm.Config{})
 	if err != nil {
 		log.Fatal("❌ No se pudo conectar a la base de datos:", err)
 	}

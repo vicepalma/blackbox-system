@@ -17,7 +17,7 @@ type Journey struct {
 	JourneyID string  `json:"journey_id" gorm:"column:journeyId"`
 	Latitude  float64 `json:"latitude"`
 	Longitude float64 `json:"longitude"`
-	SpeedKmH  float64 `json:"speed_kmh"`
+	Speed     float64 `json:"speed"`
 	Timestamp int64   `json:"timestamp"`
 }
 
